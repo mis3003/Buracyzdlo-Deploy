@@ -1,0 +1,86 @@
+.main {
+  flex: 1;
+  padding: 20px;
+}
+
+.song {
+  padding: 10px;
+  border-bottom: 1px solid #600028;
+  cursor: pointer;
+}
+
+.song:hover {
+  background-color: rgba(96, 0, 40, 0.1);
+}
+
+/* Custom button styling */
+.addSongButton {
+  background: white !important;
+  border: 1px solid rgba(96, 0, 40, 0.3) !important;
+  color: #600028 !important;
+  transition: all 0.3s ease !important;
+  font-weight: 500 !important;
+}
+
+.addSongButton:hover {
+  background: rgba(255, 255, 255, 0.9) !important;
+  border-color: #600028 !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 12px rgba(96, 0, 40, 0.2) !important;
+  color: #600028 !important;
+}
+
+.addSongButton:active {
+  transform: translateY(0) !important;
+  box-shadow: 0 2px 6px rgba(96, 0, 40, 0.1) !important;
+}
+
+/* Song list styling */
+.songItem {
+  padding: 12px !important;
+  border-bottom: 1px solid rgba(96, 0, 40, 0.2) !important;
+  transition: all 0.3s ease !important;
+  border-radius: 4px !important;
+}
+
+.songItem:hover {
+  background-color: rgba(96, 0, 40, 0.05) !important;
+  transform: translateX(2px) !important;
+}
+
+.songTitle {
+  font-weight: 500 !important;
+  color: #333 !important;
+}
+
+.songActions {
+  opacity: 0.7 !important;
+  transition: opacity 0.3s ease !important;
+}
+
+.songItem:hover .songActions {
+  opacity: 1 !important;
+}
+
+/* Custom action icons */
+.deleteIcon {
+  background-color: rgba(255, 0, 0, 0.1) !important;
+  color: #dc3545 !important;
+  border: 1px solid rgba(220, 53, 69, 0.2) !important;
+}
+
+.deleteIcon:hover {
+  background-color: rgba(255, 0, 0, 0.15) !important;
+  transform: scale(1.05) !important;
+}
+
+.playIcon {
+  background-color: #600028 !important;
+  color: white !important;
+  border: 1px solid #600028 !important;
+}
+
+.playIcon:hover {
+  background-color: #7a0032 !important;
+  transform: scale(1.05) !important;
+}
