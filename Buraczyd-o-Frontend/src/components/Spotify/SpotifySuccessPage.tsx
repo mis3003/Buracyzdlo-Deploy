@@ -16,7 +16,7 @@ export default function SpotifySuccessPage() {
 
     const callBackend = async () => {
       try {
-        const res = await fetch(`http://localhost:8080/api/spotify/callback?code=${code}`, {
+        const res = await fetch(`/api/spotify/callback?code=${code}`, {
           method: "GET",
           credentials: "include",
         });

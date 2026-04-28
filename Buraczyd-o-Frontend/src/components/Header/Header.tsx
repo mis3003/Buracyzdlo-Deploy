@@ -30,7 +30,7 @@ export function Header() {
                         onClick={async () => {
                             try {
                                 // Wysyłanie żądania do backendu
-                                const response = await fetch("http://localhost:8080/api/spotify/authorize", {
+                                const response = await fetch("/api/spotify/authorize", {
                                     method: "GET",
                                     credentials: "include"
                                 });

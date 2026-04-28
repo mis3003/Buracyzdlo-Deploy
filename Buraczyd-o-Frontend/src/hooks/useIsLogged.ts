@@ -6,7 +6,7 @@ export const useIsLogged = () => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const res = await fetch('http://localhost:8080/api/auth/me', {
+        const res = await fetch('/api/auth/me', {
           method: "GET",
           credentials: 'include',
         });

@@ -21,7 +21,7 @@ export interface AuthResponse {
 }
 
 // API URL constants
-const API_URL = 'http://localhost:8080/api/auth';
+const API_URL = '/api/auth';
 const LOGIN_URL = `${API_URL}/signin`;
 const REGISTER_URL = `${API_URL}/signup`;
 
