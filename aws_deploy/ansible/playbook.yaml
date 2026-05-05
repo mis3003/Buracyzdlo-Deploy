@@ -1,0 +1,75 @@
+- name: Prepare environment for app deployment
+  hosts: aws_ec2
+  become: yes
+  tasks:
+
+    - name: Instalacja zależności
+      apt:
+        name:
+          - ca-certificates
+          - curl
+        state: present
+        update_cache: yes
+
+    - name: Tworzenie katalogu keyrings
+      file:
+        path: /etc/apt/keyrings
+        state: directory
+        mode: '0755'
+
+    - name: Pobieranie klucza GPG Dockera
+      shell: curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+      args:
+        creates: /etc/apt/keyrings/docker.asc
+
+    - name: Chmod klucza GPG
+      file:
+        path: /etc/apt/keyrings/docker.asc
+        mode: 'a+r'
+
+    - name: Dodanie repozytorium Dockera
+      shell: |
+        echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo $VERSION_CODENAME) stable" | tee /etc/apt/sources.list.d/docker.list
+      args:
+        creates: /etc/apt/sources.list.d/docker.list
+
+    - name: Instalacja Dockera
+      apt:
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+        state: present
+        update_cache: yes
+
+    - name: Uruchom i włącz Dockera
+      systemd:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Instalacja k3s
+      shell: curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="--disable=traefik" sh -
+      args:
+        creates: /usr/local/bin/k3s
+
+    - name: Kopiowanie Secret na EC2
+      copy:
+        src: Deploy/db-secret.yaml
+        dest: /home/ubuntu/db-secret.yaml
+        mode: '0600'
+
+    - name: Kopiowanie manifestów k8s
+      copy:
+        src: Deploy/
+        dest: /home/ubuntu/k8s/
+
+    - name: Aplikowanie Secret
+      shell: k3s kubectl apply -f /home/ubuntu/db-secret.yaml
+      environment:
+        KUBECONFIG: /etc/rancher/k3s/k3s.yaml
+
+    - name: Aplikowanie manifestów
+      shell: k3s kubectl apply -f /home/ubuntu/k8s/
+      environment:
+        KUBECONFIG: /etc/rancher/k3s/k3s.yaml

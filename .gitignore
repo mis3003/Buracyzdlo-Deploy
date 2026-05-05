@@ -1,3 +1,10 @@
 .env
 db-secret.yaml
 Jenkinsfile
+.venv
+
+.terraform/
+*.tfvars
+terraform.tfstate
+terraform.tfstate.backup
+ansible.cfg
