@@ -1,24 +1,22 @@
 pipeline {
     agent any
     environment {
-        DOCKER_HUB_CREDS = credentials('Dockerhub_crudentials')
-        
+        // Zmienna przechowuje ID poświadczeń
+        DOCKER_HUB_CREDS_ID = 'Dockerhub_crudentials'
     }
 
-
     stages {
-
-       stage('Check Docker Login') {
-    steps {
-        script {
-            // Używamy Twoich poświadczeń
-            docker.withRegistry('https://index.docker.io/v1/', 'docker-hub-credentials') {
-                // Ta komenda wypisze nazwę użytkownika w logach Jenkinsa
-                sh "docker info | grep Username"
+        stage('Check Docker Login') {
+            steps {
+                script {
+                    // Używamy zmiennej bezpośrednio (bez cudzysłowu i bez $)
+                    // lub jako env.DOCKER_HUB_CREDS_ID
+                    docker.withRegistry('https://index.docker.io/v1/', env.DOCKER_HUB_CREDS_ID) {
+                        
+                        sh "docker info | grep Username"
+                    }
+                }
             }
         }
     }
-}
-
-}
 }
