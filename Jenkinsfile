@@ -18,24 +18,46 @@ pipeline {
             }
         }
 
-        stage('Test Java') {
+//         stage('Test Java') {
+//     agent {
+//         docker {
+//             image 'maven:3.9-eclipse-temurin-17'
+//             reuseNode true
+//         }
+//     }
+//     steps {
+//         dir('Buraczyd-o-Backend') {
+            
+//             sh 'mvn test'
+//         }
+//     }
+//     post {
+//         always {
+           
+//             junit 'Buraczyd-o-Backend/target/surefire-reports/*.xml'
+//         }
+//     }
+// }
+
+stage('Build Frontend') {
     agent {
         docker {
-            image 'maven:3.9-eclipse-temurin-17'
+            image 'node:20-alpine'
             reuseNode true
         }
     }
     steps {
-        dir('Buraczyd-o-Backend') {
-            
-            sh 'mvn test'
+        dir('Buraczyd-o-Frontend') { 
+        
+
+        sh```
+        npm install
+        npm run build
+        ```
+          
         }
-    }
-    post {
-        always {
-           
-            junit 'Buraczyd-o-Backend/target/surefire-reports/*.xml'
-        }
+        
+        archiveArtifacts artifacts: 'Buraczyd-o-Frontend/build/**', fingerprint: true
     }
 }
 
