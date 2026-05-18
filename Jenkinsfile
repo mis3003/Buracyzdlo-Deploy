@@ -48,5 +48,21 @@ pipeline {
                 }
             }
         }
+
+        stage('Terraform Plan') {
+    environment {
+        
+        MY_TFVARS_FILE = credentials('Buraczydlo_tfvars')
+    }
+
+    steps{
+        dir('aws_deploy/terraform'){
+            sh ```
+            terraform init
+
+            terraform plan -var-file=${MY_TFVARS_FILE}
+            ```
+        }
+    }
     }
 }
