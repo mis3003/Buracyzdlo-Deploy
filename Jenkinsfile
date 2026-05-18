@@ -57,11 +57,11 @@ pipeline {
 
     steps{
         dir('aws_deploy/terraform'){
-            sh ```
+            sh """
             terraform init
 
             terraform plan -var-file=${MY_TFVARS_FILE}
-            ```
+           """
         }
     }
     }
