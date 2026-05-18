@@ -1,6 +1,5 @@
 .env
 db-secret.yaml
-Jenkinsfile
 .venv
 
 .terraform/

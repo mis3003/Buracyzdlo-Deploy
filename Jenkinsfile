@@ -1,63 +1,22 @@
 pipeline {
     agent any
+    environment {
+        
+        
+    }
+
 
     stages {
-        stage('Build Java') {
 
-            agent{
-                docker{
-                    image 'maven:3.9-eclipse-temurin-17'
-                     reuseNode true
-                }
-            }
-            steps {
-                dir('Buraczyd-o-Backend') {
-            sh 'mvn clean package -DskipTests'
-        }
-             archiveArtifacts artifacts: 'Buraczyd-o-Backend/target/*.jar', fingerprint: true
-            }
-        }
-
-//         stage('Test Java') {
-//     agent {
-//         docker {
-//             image 'maven:3.9-eclipse-temurin-17'
-//             reuseNode true
-//         }
-//     }
-//     steps {
-//         dir('Buraczyd-o-Backend') {
-            
-//             sh 'mvn test'
-//         }
-//     }
-//     post {
-//         always {
-           
-//             junit 'Buraczyd-o-Backend/target/surefire-reports/*.xml'
-//         }
-//     }
-// }
-
-stage('Build Frontend') {
-    agent {
-        docker {
-            image 'node:20-alpine'
-            reuseNode true
-        }
-    }
+       stage('Check Docker Login') {
     steps {
-        dir('Buraczyd-o-Frontend') { 
-        
-
-        sh ```
-        npm install
-        npm run build
-        ```
-          
+        script {
+            // Używamy Twoich poświadczeń
+            docker.withRegistry('https://index.docker.io/v1/', 'docker-hub-credentials') {
+                // Ta komenda wypisze nazwę użytkownika w logach Jenkinsa
+                sh "docker info | grep Username"
+            }
         }
-        
-        archiveArtifacts artifacts: 'Buraczyd-o-Frontend/build/**', fingerprint: true
     }
 }
 
