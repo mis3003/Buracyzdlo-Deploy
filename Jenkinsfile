@@ -18,5 +18,26 @@ pipeline {
                 }
             }
         }
+
+
+         stage('Build backend') {
+            steps {
+               script {
+        
+            dir('Buraczyd-o-Backend') {
+                
+              
+                docker.withRegistry('https://index.docker.io/v1/', env.DOCKER_HUB_CREDS_ID) {
+                    
+                   
+                    def imageName = "${env.DOCKER_HUB_CREDS_USR}/buraczyd-backend"
+                    def customImage = docker.build("${imageName}:${env.BUILD_ID}")
+                    
+                   
+                    customImage.push()          
+                    customImage.push('latest')  
+                }
+            }
+        }
     }
 }
