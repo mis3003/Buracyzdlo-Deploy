@@ -17,5 +17,27 @@ pipeline {
              archiveArtifacts artifacts: 'Buraczyd-o-Backend/target/*.jar', fingerprint: true
             }
         }
+
+        stage('Test Java') {
+    agent {
+        docker {
+            image 'maven:3.9-eclipse-temurin-17'
+            reuseNode true
+        }
     }
+    steps {
+        dir('Buraczyd-o-Backend') {
+            
+            sh 'mvn test'
+        }
+    }
+    post {
+        always {
+           
+            junit 'Buraczyd-o-Backend/target/surefire-reports/*.xml'
+        }
+    }
+}
+
+}
 }
