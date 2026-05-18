@@ -50,7 +50,7 @@ stage('Build Frontend') {
         dir('Buraczyd-o-Frontend') { 
         
 
-        sh```
+        sh ```
         npm install
         npm run build
         ```
