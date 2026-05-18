@@ -30,7 +30,7 @@ pipeline {
                 docker.withRegistry('https://index.docker.io/v1/', env.DOCKER_HUB_CREDS_ID) {
                     
                    
-                    def imageName = "${env.DOCKER_HUB_CREDS_USR}/buraczyd-backend"
+                    def imageName = "${env.DOCKER_HUB_CREDS_USR}/buraczydlo-backend"
                     def customImage = docker.build("${imageName}:${env.BUILD_ID}")
                     
                    
